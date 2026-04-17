@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Learning LMS</title>
+
+<style>
+body {font-family: Arial; margin:0; background:#eef2f7;}
+header {background:#1e3a5f; color:white; padding:30px; text-align:center;}
+nav {background:#2c5282; padding:10px; text-align:center;}
+nav a {color:white; margin:10px; text-decoration:none; font-weight:bold;}
+.container {padding:20px;}
+.card {background:white; padding:20px; border-radius:12px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
+input {padding:10px; width:250px; margin:5px;}
+button {padding:10px; background:#3182ce; color:white; border:none; border-radius:5px; cursor:pointer;}
+.hidden {display:none;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>E-Learning System</h1>
+<p>Events Management NC III</p>
+</header>
+
+<nav>
+<a href="#" onclick="showPage('dashboard')">Dashboard</a>
+<a href="#" onclick="showPage('class')">Class</a>
+<a href="#" onclick="showPage('quiz')">Quizzes</a>
+<a href="#" onclick="showPage('orientation')">Module Orientation</a>
+<a href="#" onclick="showPage('grades')">Grades</a>
+<a href="#" onclick="showPage('certificate')">Certificate</a>
+<a href="#" onclick="showPage('login')">Login</a>
+</nav>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login" class="card">
+<h2>Login</h2>
+<input type="text" id="username" placeholder="Username"><br>
+<input type="password" id="password" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+<p id="msg"></p>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="card hidden">
+<h2>Welcome to E-Learning</h2>
+<p>You are successfully logged in.</p>
+</div>
+
+<!-- CLASS -->
+<div id="class" class="card hidden">
+<h2>Class Lessons</h2>
+<ul>
+<li>Lesson 1: Introduction to Events</li>
+<li>Lesson 2: Types of Events</li>
+<li>Lesson 3: Event Planning</li>
+</ul>
+</div>
+
+<!-- ORIENTATION -->
+<div id="orientation" class="card hidden">
+<h2>Module Orientation</h2>
+<p>This module will guide you in Events Management NC III.</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="card hidden">
+<h2>Quiz</h2>
+<p>What is an event?</p>
+<input type="text" id="ans"><br>
+<button onclick="checkQuiz()">Submit</button>
+<p id="result"></p>
+</div>
+
+<!-- GRADES -->
+<div id="grades" class="card hidden">
+<h2>Grades</h2>
+<p>Your Score: <span id="score">0</span></p>
+</div>
+
+<!-- CERTIFICATE -->
+<div id="certificate" class="card hidden">
+<h2>Certificate</h2>
+<p id="certMsg">Complete the quiz to receive your certificate.</p>
+</div>
+
+</div>
+
+<script>
+let logged=false;
+let score=0;
+
+const users=[
+{username:"admin",password:"1234"},
+{username:"student",password:"1111"}
+];
+
+function showPage(page){
+if(!logged && page!=='login'){alert('Login first');return;}
+['dashboard','class','quiz','orientation','grades','certificate','login'].forEach(p=>document.getElementById(p).classList.add('hidden'));
+document.getElementById(page).classList.remove('hidden');
+}
+
+function login(){
+let u=document.getElementById('username').value;
+let p=document.getElementById('password').value;
+let user=users.find(x=>x.username===u && x.password===p);
+if(user){logged=true;document.getElementById('msg').innerText='Login successful';showPage('dashboard');}
+else{document.getElementById('msg').innerText='Invalid login';}
+}
+
+function checkQuiz(){
+let a=document.getElementById('ans').value.toLowerCase();
+if(a.includes('planned')){score=100;document.getElementById('result').innerText='Correct';}
+else{score=50;document.getElementById('result').innerText='Wrong';}
+document.getElementById('score').innerText=score;
+
+// Certificate condition
+if(score>=100){
+document.getElementById('certMsg').innerText='Congratulations! You can now receive your certificate.';
+}
+}
+</script>
+
+</body>
+</html>
